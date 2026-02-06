@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Донат Free Fire</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin:0;
+    font-family:'Roboto', sans-serif;
+    background:url("backgroundphoto2.jpg") no-repeat center/cover;
+    color:#fff;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* частицы */
+.particle{
+    position:absolute;
+    border-radius:50%;
+    pointer-events:none;
+    animation: float 10s linear infinite;
+}
+
+@keyframes float{
+    from{transform:translateY(0);opacity:1;}
+    to{transform:translateY(-900px);opacity:0;}
+}
+
+/* блоки */
+.block{
+    max-width:450px;
+    margin:15px auto;
+    padding:15px 20px;
+    border-radius:18px;
+    background:rgba(0,0,0,.65);
+    box-shadow:0 0 20px rgba(0,0,0,.6);
+    text-align:center;
+}
+
+.title{
+    font-size:22px;
+    font-weight:700;
+    background:linear-gradient(45deg,#ffcc00,#ff5500);
+    color:#000;
+}
+
+.author{
+    font-size:15px;
+    color:#ffd700;
+}
+
+.author a{
+    color:#ffd700;
+    text-decoration:none;
+    font-weight:700;
+}
+
+.author a:hover{
+    color:#ff5500;
+}
+
+/* кнопка */
+.btn{
+    margin:25px auto;
+    display:block;
+    padding:15px 60px;
+    font-size:20px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    background:linear-gradient(45deg,#ffcc00,#ff5500);
+    color:#000;
+    box-shadow:0 0 25px #ffcc00,0 0 45px #ff5500;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:scale(1.1);
+}
+
+.btn:active{
+    transform:scale(.95);
+}
+
+/* правила */
+.rules{
+    text-align:left;
+    font-size:14px;
+    line-height:1.6;
+}
+
+.rules h2{
+    text-align:center;
+    color:#ffd700;
+}
+
+/* адаптив */
+@media(max-width:480px){
+    .btn{width:90%;}
+    .block{margin:12px;}
+}
+</style>
+</head>
+
+<body>
+
+    <a href="ruletka.html">🎰 Рулетка</a>
+
+<script>
+for(let i=0;i<30;i++){
+    let p=document.createElement("div");
+    p.className="particle";
+    let size=Math.random()*6+4;
+    p.style.width=size+"px";
+    p.style.height=size+"px";
+    p.style.left=Math.random()*100+"%";
+    p.style.top=Math.random()*100+"%";
+    p.style.background=`rgba(255,200,50,${Math.random()})`;
+    p.style.animationDuration=(Math.random()*6+6)+"s";
+    document.body.appendChild(p);
+}
+</script>
+
+<div class="block author">
+    Автор: Гайбуллаев Шукуржон <br>
+    <a href="https://t.me/shukurjongaybullaev" target="_blank">@shukurjongaybullaev</a>
+</div>
+
+<div class="block title">
+    Купить донат и алмазы Garena Free Fire
+</div>
+
+<button class="btn" onclick="goNext()">Продолжить</button>
+
+<div class="block rules">
+<h2>📜 Важно перед покупкой</h2>
+<ul>
+<li>⚠ Вводите ID внимательно</li>
+<li>При оплате через M-Bank обязательно напишите свой ID в сообщении, иначе мы не сможем правильно привязать платеж к заказу.</li>
+<li>❌ Мы не несем ответственности за неверный ID</li>
+<li>💰 Возврат возможен только при нашей ошибке</li>
+<li>📦 Проверяйте выбранный товар</li>
+<li>🕒 Обработка может происходить от несколько минут до пару часов </li>
+</ul>
+</div>
+
+<script>
+function goNext(){
+    window.location.href="registration.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вход / Регистрация — Free Fire</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    font-family:'Roboto',sans-serif;
+    background:url("backgroundphoto2.jpg") no-repeat center/cover;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    overflow:hidden;
+}
+
+/* частицы */
+.particle{
+    position:absolute;
+    border-radius:50%;
+    pointer-events:none;
+    animation: float 12s linear infinite;
+}
+@keyframes float{
+    from{ transform:translateY(100vh); opacity:1 }
+    to{ transform:translateY(-200px); opacity:0 }
+}
+
+/* контейнер */
+#container{
+    background:rgba(0,0,0,0.85);
+    padding:30px;
+    border-radius:18px;
+    width:90%;
+    max-width:380px;
+    box-shadow:0 0 30px rgba(0,0,0,.8);
+    animation: fadeIn .6s ease;
+    z-index:2;
+}
+@keyframes fadeIn{
+    from{opacity:0; transform:scale(.95)}
+    to{opacity:1; transform:scale(1)}
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border-radius:12px;
+    border:none;
+    font-size:15px;
+}
+
+button{
+    width:100%;
+    padding:13px;
+    margin-top:14px;
+    border:none;
+    border-radius:30px;
+    font-size:18px;
+    background:linear-gradient(45deg,#ffcc00,#ff5500);
+    color:black;
+    cursor:pointer;
+    transition:.3s;
+}
+button:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 20px #ff5500;
+}
+
+.message{
+    text-align:center;
+    margin-top:12px;
+    font-size:14px;
+    color:#ffd700;
+}
+
+.toggle{
+    text-align:center;
+    margin-top:10px;
+    color:#00bfff;
+    cursor:pointer;
+    text-decoration:underline;
+    font-size:14px;
+}
+
+.remember{
+    display:flex;
+    align-items:center;
+    font-size:14px;
+    margin-top:6px;
+}
+.remember input{width:auto;margin-right:6px}
+</style>
+</head>
+<body>
+
+<script>
+for(let i=0;i<35;i++){
+    let p=document.createElement('div');
+    p.className='particle';
+    let s=Math.random()*6+4;
+    p.style.width=p.style.height=s+'px';
+    p.style.left=Math.random()*100+'%';
+    p.style.background='rgba(255,200,50,'+Math.random()+')';
+    p.style.animationDuration=8+Math.random()*8+'s';
+    document.body.appendChild(p);
+}
+</script>
+
+<div id="container">
+
+<!-- РЕГИСТРАЦИЯ -->
+<div id="register">
+<h2>Создать аккаунт</h2>
+<form id="registerForm">
+<input name="username" placeholder="Имя" required>
+<input type="email" name="email" placeholder="Email" required>
+<input type="password" name="password" placeholder="Пароль" required>
+<input name="secret" placeholder="Кодовое слово" required>
+<button>Зарегистрироваться</button>
+</form>
+<div class="message" id="regMsg"></div>
+<div class="toggle" onclick="showLogin()">Уже есть аккаунт</div>
+</div>
+
+<!-- ВХОД -->
+<div id="login" style="display:none">
+<h2>Вход</h2>
+<form id="loginForm">
+<input id="loginEmail" type="email" placeholder="Email" required>
+<input id="loginPass" type="password" placeholder="Пароль" required>
+<div class="remember">
+<input type="checkbox" id="remember">
+<label for="remember">Запомнить меня</label>
+</div>
+<button>Войти</button>
+</form>
+<div class="message" id="logMsg"></div>
+<div class="toggle" onclick="showRegister()">Регистрация</div>
+<div class="toggle" onclick="showForgot()">Забыл пароль?</div>
+</div>
+
+<!-- ВОССТАНОВЛЕНИЕ -->
+<div id="forgot" style="display:none">
+<h2>Восстановление</h2>
+<form id="forgotForm">
+<input id="forgotEmail" type="email" placeholder="Email" required>
+<button>Далее</button>
+</form>
+<div class="message" id="forMsg"></div>
+<div class="toggle" onclick="showLogin()">Назад</div>
+</div>
+
+<!-- КОДОВОЕ -->
+<div id="secret" style="display:none">
+<h2>Кодовое слово</h2>
+<form id="secretForm">
+<input id="secretInput" placeholder="Кодовое слово" required>
+<input id="newPass" type="password" placeholder="Новый пароль" required>
+<button>Сменить пароль</button>
+</form>
+<div class="message" id="secMsg"></div>
+</div>
+
+</div>
+
+<script>
+function showRegister(){hide();register.style.display='block'}
+function showLogin(){hide();login.style.display='block'}
+function showForgot(){hide();forgot.style.display='block'}
+function showSecret(){hide();secret.style.display='block'}
+function hide(){register.style.display=login.style.display=forgot.style.display=secret.style.display='none'}
+
+let users=JSON.parse(localStorage.getItem("users")||"[]");
+
+registerForm.onsubmit=e=>{
+e.preventDefault();
+if(users.find(u=>u.email===registerForm.email.value)){
+regMsg.innerText="Email уже используется";return}
+users.push({
+username:registerForm.username.value,
+email:registerForm.email.value,
+password:registerForm.password.value,
+secret:registerForm.secret.value
+});
+localStorage.setItem("users",JSON.stringify(users));
+regMsg.innerText="Аккаунт создан!";
+registerForm.reset();
+}
+
+loginForm.onsubmit=e=>{
+e.preventDefault();
+let u=users.find(x=>x.email===loginEmail.value && x.password===loginPass.value);
+if(!u){logMsg.innerText="Неверные данные";return}
+if(remember.checked) localStorage.setItem("remember",u.email);
+window.location.href="id.html";
+}
+
+if(localStorage.getItem("remember")){
+window.location.href="id.html";
+}
+
+forgotForm.onsubmit=e=>{
+e.preventDefault();
+let u=users.find(x=>x.email===forgotEmail.value);
+if(!u){forMsg.innerText="Email не найден";return}
+localStorage.setItem("reset",u.email);
+showSecret();
+}
+
+secretForm.onsubmit=e=>{
+e.preventDefault();
+let email=localStorage.getItem("reset");
+let u=users.find(x=>x.email===email);
+if(u.secret!==secretInput.value){
+secMsg.innerText="Неверное слово";return}
+u.password=newPass.value;
+localStorage.setItem("users",JSON.stringify(users));
+secMsg.innerText="Пароль изменён";
+setTimeout(showLogin,1200);
+}
+</script>
+
+</body>
+</html>

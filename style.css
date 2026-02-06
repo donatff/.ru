@@ -1,0 +1,127 @@
+/* ===== ОСНОВА ===== */
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial, sans-serif;
+    background:url("backgroundphoto.jpg") no-repeat center/cover;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+/* ===== КОНТЕЙНЕР ===== */
+.container{
+    text-align:center;
+    z-index:2;
+}
+
+/* ===== КАРТИНКА ===== */
+img{
+    width:250px;
+    border-radius:20px;
+    margin-bottom:20px;
+    box-shadow:0 0 25px rgba(0,0,0,.7);
+}
+
+/* ===== КНОПКА ===== */
+button{
+    padding:15px 50px;
+    font-size:20px;
+    color:#000;
+    background:linear-gradient(45deg,#ffcc00,#ff5500);
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    box-shadow:0 0 20px #ffcc00,0 0 40px #ff5500;
+    transition:transform .3s, box-shadow .3s;
+}
+
+button:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 30px #ffe066,0 0 60px #ff6600;
+}
+
+button:active{
+    transform:scale(.95);
+}
+
+/* ===== АВТОР ===== */
+.author{
+    position:fixed;
+    top:15px;
+    right:15px;
+    padding:6px 12px;
+    font-size:14px;
+    font-weight:bold;
+    color:#00f6ff;
+    text-decoration:none;
+    background:rgba(0,0,0,.45);
+    border-radius:12px;
+    text-shadow:0 0 5px #00f6ff,0 0 15px #0088ff;
+    box-shadow:0 0 15px rgba(0,200,255,.6);
+    animation:authorIn .8s ease forwards;
+    opacity:0;
+    z-index:999;
+}
+
+@keyframes authorIn{
+    from{opacity:0;transform:translateY(-10px) scale(.9);}
+    to{opacity:1;transform:translateY(0) scale(1);}
+}
+
+.author:hover{
+    box-shadow:0 0 25px rgba(0,255,255,.9);
+}
+
+/* ===== ВЕРХНИЙ ТЕКСТ ===== */
+.top-text{
+    position:fixed;
+    top:12px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:20px;
+    font-weight:bold;
+    text-shadow:1px 1px 6px #000;
+    z-index:998;
+}
+
+/* ===== ПРАВИЛА ===== */
+.rules{
+    background:rgba(0,0,0,.7);
+    border-left:5px solid #ffcc00;
+    padding:15px 20px;
+    border-radius:12px;
+    margin-top:25px;
+    color:#fff;
+    box-shadow:0 0 15px rgba(255,204,0,.4);
+    max-width:400px;
+    text-align:left;
+}
+
+.rules h2{
+    margin-top:0;
+    color:#ffcc00;
+    text-align:center;
+}
+
+.rules ul{
+    margin:10px 0 0 18px;
+}
+
+.rules li{
+    margin-bottom:8px;
+    line-height:1.4;
+}
+
+/* ===== АДАПТИВ ===== */
+@media(max-width:480px){
+    img{width:200px;}
+    button{width:90%;}
+    .rules{margin:15px;}
+}

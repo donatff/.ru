@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Оплата заказа — Free Fire</title>
+<style>
+body {
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:url("backgroundphoto2.jpg") no-repeat center/cover;
+    font-family:Arial, sans-serif;
+    color:white;
+}
+
+.container{
+    text-align:center;
+    background:rgba(0,0,0,0.85);
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 0 30px rgba(0,0,0,0.7);
+    max-width:400px;
+    animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+h2{
+    margin-bottom:20px;
+    color:#FFD700;
+    text-shadow:0 0 10px #FFD700;
+}
+
+.warning{
+    background: #FF3333;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:20px;
+    font-weight:bold;
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+    0%{opacity:0.7;}
+    50%{opacity:1;}
+    100%{opacity:0.7;}
+}
+
+img.qr{
+    width:200px;
+    margin-bottom:20px;
+    border-radius:15px;
+}
+
+button{
+    padding:12px 40px;
+    font-size:16px;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    margin:10px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+button.pay{
+    background:linear-gradient(45deg,#ffcc00,#ff5500);
+    color:black;
+    box-shadow:0 0 15px #ffcc00,0 0 30px #ff5500;
+}
+
+button.pay:disabled{
+    background:gray;
+    cursor:not-allowed;
+    box-shadow:none;
+}
+
+button.pay:hover:not(:disabled){
+    transform:scale(1.08);
+    box-shadow:0 0 25px #ffe066,0 0 50px #ff6600;
+}
+
+button.back{
+    background:linear-gradient(45deg,#00BFFF,#007BFF);
+    color:white;
+    box-shadow:0 0 15px #00BFFF,0 0 30px #007BFF;
+}
+
+button.back:hover{
+    transform:scale(1.08);
+    box-shadow:0 0 25px #00FFFF,0 0 50px #007BFF;
+}
+
+.loader {
+    border: 6px solid rgba(255,255,255,0.2);
+    border-top: 6px solid #FFD700;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin: 20px auto;
+    animation: spin 1s linear infinite;
+    display: none;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.status-text {
+    margin-top:10px;
+    font-size:16px;
+    color:#FFD700;
+    display:none;
+    line-height:1.4;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>💳 Оплата заказа</h2>
+
+    <!-- ВОСКЛЕЦАТЕЛЬНЫЙ ЗНАК И ПРЕДУПРЕЖДЕНИЕ -->
+    <div class="warning">
+        ❗ ВАЖНО! Обязательно напишите свой ID в сообщении MBank  при отправке платежа.
+    </div>
+
+    <img src="QRkode.jpg" alt="QR-код" class="qr">
+    <p>Отсканируйте QR-код и оплатите заказ. После оплаты подтвердите галочкой ниже.</p>
+
+    <!-- Галочка согласия -->
+    <label style="display:block; margin:10px 0;">
+        <input type="checkbox" id="agreeCheck"> Я прочитал и отправил свой ID в M‑Bank
+    </label>
+
+    <!-- Кнопки -->
+    <button class="pay" id="payBtn" disabled onclick="sendOrder()">Я оплатил</button>
+    <button class="back" onclick="goBack()">← Назад</button>
+
+    <div class="loader" id="loader"></div>
+    <div class="status-text" id="statusText">⏳ Оплата отправлена. Наши специалисты проверяют перевод. Пожалуйста, ждите подтверждения.</div>
+</div>
+
+<script>
+// Активируем кнопку только если галочка поставлена
+document.getElementById("agreeCheck").addEventListener("change", function(){
+    document.getElementById("payBtn").disabled = !this.checked;
+});
+
+function sendOrder(){
+    const playerID = localStorage.getItem("playerID");
+    const selectedItem = localStorage.getItem("selectedItem");
+    const paymentMethod = "QR";
+
+    if(!playerID || !selectedItem){
+        alert("Ошибка данных. Начните заказ заново.");
+        window.location.href = "index.html";
+        return;
+    }
+
+    // Показываем спиннер и текст
+    document.getElementById("loader").style.display = "block";
+    document.getElementById("statusText").style.display = "block";
+    document.getElementById("payBtn").disabled = true;
+
+   const TOKEN = "8277453712:AAHz4g1w9MDHVn2Nvx-G4VqWFWfH99nMWfc";
+const CHAT_ID = "426389082"; // твой ID чата
+
+
+    const message = 
+`🆕 ЗАЯВКА НА ОПЛАТУ
+🆔 ID игрока: ${playerID}
+💎 Товар: ${selectedItem}
+💳 Оплата: ${paymentMethod}
+❗ Клиент подтвердил перевод и указал ID в сообщении M‑Bank`;
+
+    fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({chat_id:CHAT_ID,text:message})
+    })
+    .then(r=>r.json())
+    .then(data=>{
+        if(data.ok){
+            setTimeout(()=>{
+                document.getElementById("statusText").innerText = 
+                "✅ Заявка отправлена! Наши специалисты проверяют перевод. После проверки мы подтвердим ваш заказ.";
+            },2000);
+        }else{
+            document.getElementById("statusText").innerText = "❌ Ошибка отправки в Telegram";
+            console.log(data);
+        }
+    })
+    .catch(err=>{
+        document.getElementById("statusText").innerText = "❌ Ошибка сети";
+        console.log(err);
+    });
+}
+
+function goBack(){
+    window.location.href = "shop.html"; 
+}
+</script>
+
+</body>
+</html>
