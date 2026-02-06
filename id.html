@@ -104,6 +104,15 @@ button:hover{
 
 <body>
 
+
+<!-- Модальное окно для истории -->
+<div id="historyModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
+    background: rgba(0,0,0,0.8); color:white; overflow:auto; padding:50px;">
+    <h2>История пополнений</h2>
+    <div id="historyContent"></div>
+    <button onclick="closeHistory()">Закрыть</button>
+</div>
+
 <div class="rules">
   <h2>📌 Важно</h2>
   <p>
@@ -119,6 +128,39 @@ button:hover{
 </div>
 
 <script>
+  
+
+// В функции sendOrder() после подтверждения оплаты:
+const username = localStorage.getItem("username");
+const selectedItem = localStorage.getItem("selectedItem");
+const amount = 95; // сумма покупки
+const date = new Date().toLocaleString();
+
+addPaymentHistory(username, selectedItem, amount, date);
+
+    // Открытие истории
+document.getElementById('historyBtn').addEventListener('click', function() {
+    const username = localStorage.getItem('username'); // текущий пользователь
+    const history = JSON.parse(localStorage.getItem('paymentHistory') || '[]')
+                        .filter(entry => entry.username === username);
+
+    const contentDiv = document.getElementById('historyContent');
+    if(history.length === 0){
+        contentDiv.innerHTML = "<p>История пуста</p>";
+    } else {
+        contentDiv.innerHTML = history.map(entry => 
+            `<p>${entry.date} — ${entry.item} — ${entry.amount} сом</p>`
+        ).join('');
+    }
+
+    document.getElementById('historyModal').style.display = 'block';
+});
+
+// Закрытие истории
+function closeHistory(){
+    document.getElementById('historyModal').style.display = 'none';
+}
+
 function goNext(){
     const id = document.getElementById("playerId").value.trim();
 
