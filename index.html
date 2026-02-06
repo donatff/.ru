@@ -217,7 +217,53 @@ body{
 
 <body>
 
+
+<!-- Модальное окно для истории -->
+<div id="historyModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
+    background: rgba(0,0,0,0.8); color:white; overflow:auto; padding:50px;">
+    <h2>История пополнений</h2>
+    <div id="historyContent"></div>
+    <button onclick="closeHistory()">Закрыть</button>
+</div>
+
 <script>
+    function addPaymentHistory(username, item, amount, date) {
+    let history = JSON.parse(localStorage.getItem('paymentHistory') || '[]');
+    history.push({ username, item, amount, date });
+    localStorage.setItem('paymentHistory', JSON.stringify(history));
+}
+
+// В функции sendOrder() после подтверждения оплаты:
+const username = localStorage.getItem("username");
+const selectedItem = localStorage.getItem("selectedItem");
+const amount = 95; // сумма покупки
+const date = new Date().toLocaleString();
+
+addPaymentHistory(username, selectedItem, amount, date);
+
+    // Открытие истории
+document.getElementById('historyBtn').addEventListener('click', function() {
+    const username = localStorage.getItem('username'); // текущий пользователь
+    const history = JSON.parse(localStorage.getItem('paymentHistory') || '[]')
+                        .filter(entry => entry.username === username);
+
+    const contentDiv = document.getElementById('historyContent');
+    if(history.length === 0){
+        contentDiv.innerHTML = "<p>История пуста</p>";
+    } else {
+        contentDiv.innerHTML = history.map(entry => 
+            `<p>${entry.date} — ${entry.item} — ${entry.amount} сом</p>`
+        ).join('');
+    }
+
+    document.getElementById('historyModal').style.display = 'block';
+});
+
+// Закрытие истории
+function closeHistory(){
+    document.getElementById('historyModal').style.display = 'none';
+}
+
 // Создание частиц
 for(let i=0;i<30;i++){
     let p=document.createElement("div");
@@ -236,7 +282,7 @@ for(let i=0;i<30;i++){
 <div class="block author">
     <strong>Поддержка:</strong>  <br>
     <a href="https://t.me/shurik_freefire" target="_blank">
-        <i class="fab fa-telegram"></i> @shurir_freefire
+        <i class="fab fa-telegram"></i> @shurik_freefire
         
     </a>
 </div>
@@ -278,5 +324,4 @@ function goNext(){
 
 </body>
 </html>
-
 
