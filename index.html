@@ -6,6 +6,7 @@
 <title>Донат Free Fire</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 *{
@@ -19,6 +20,7 @@ body{
     color:#fff;
     min-height:100vh;
     overflow-x:hidden;
+    padding-top: 20px;
 }
 
 /* частицы */
@@ -40,16 +42,21 @@ body{
     margin:15px auto;
     padding:15px 20px;
     border-radius:18px;
-    background:rgba(0,0,0,.65);
-    box-shadow:0 0 20px rgba(0,0,0,.6);
+    background:rgba(0,0,0,.75);
+    box-shadow:0 0 25px rgba(0,0,0,.7);
     text-align:center;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 215, 0, 0.2);
 }
 
 .title{
-    font-size:22px;
+    font-size:24px;
     font-weight:700;
     background:linear-gradient(45deg,#ffcc00,#ff5500);
-    color:#000;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    padding: 5px 0;
 }
 
 .author{
@@ -61,18 +68,56 @@ body{
     color:#ffd700;
     text-decoration:none;
     font-weight:700;
+    transition: color 0.3s;
 }
 
 .author a:hover{
     color:#ff5500;
 }
 
+/* Instagram блок */
+.instagram-block {
+    margin: 15px auto;
+    padding: 15px;
+    background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+    border-radius: 18px;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(225, 48, 108, 0.5);
+}
+
+.instagram-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 12px;
+    transition: transform 0.3s;
+}
+
+.instagram-link:hover {
+    transform: scale(1.05);
+}
+
+.instagram-icon {
+    font-size: 28px;
+}
+
+.instagram-text {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
 /* кнопка */
 .btn{
     margin:25px auto;
     display:block;
-    padding:15px 60px;
-    font-size:20px;
+    padding:17px 65px;
+    font-size:22px;
+    font-weight:700;
     border:none;
     border-radius:30px;
     cursor:pointer;
@@ -80,10 +125,12 @@ body{
     color:#000;
     box-shadow:0 0 25px #ffcc00,0 0 45px #ff5500;
     transition:.3s;
+    letter-spacing: 1px;
 }
 
 .btn:hover{
     transform:scale(1.1);
+    box-shadow:0 0 30px #ffcc00,0 0 55px #ff5500;
 }
 
 .btn:active{
@@ -93,28 +140,76 @@ body{
 /* правила */
 .rules{
     text-align:left;
-    font-size:14px;
+    font-size:15px;
     line-height:1.6;
 }
 
 .rules h2{
     text-align:center;
     color:#ffd700;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.rules ul {
+    padding-left: 20px;
+}
+
+.rules li {
+    margin-bottom: 10px;
+    padding-left: 5px;
+}
+
+.rules li i {
+    margin-right: 8px;
+    color: #ffcc00;
 }
 
 /* адаптив */
 @media(max-width:480px){
-    .btn{width:90%;}
-    .block{margin:12px;}
+    .btn{
+        width:90%;
+        padding: 15px;
+        font-size: 20px;
+    }
+    .block{
+        margin:12px;
+        max-width: 95%;
+    }
+    .instagram-block {
+        max-width: 95%;
+        margin: 12px auto;
+    }
+    .title {
+        font-size: 22px;
+    }
+}
+
+/* анимация кнопки */
+@keyframes pulse {
+    0% { box-shadow: 0 0 25px #ffcc00, 0 0 45px #ff5500; }
+    50% { box-shadow: 0 0 30px #ffcc00, 0 0 50px #ff5500; }
+    100% { box-shadow: 0 0 25px #ffcc00, 0 0 45px #ff5500; }
+}
+
+.btn {
+    animation: pulse 2s infinite;
+}
+
+/* стиль для значков */
+.fa-instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
 }
 </style>
 </head>
 
 <body>
 
-    <a href="ruletka.html">🎰 Рулетка</a>
-
 <script>
+// Создание частиц
 for(let i=0;i<30;i++){
     let p=document.createElement("div");
     p.className="particle";
@@ -130,25 +225,38 @@ for(let i=0;i<30;i++){
 </script>
 
 <div class="block author">
-    Автор: Гайбуллаев Шукуржон <br>
-    <a href="https://t.me/shukurjongaybullaev" target="_blank">@shukurjongaybullaev</a>
+    <strong>Автор:</strong> Гайбуллаев Шукуржон <br>
+    <a href="https://t.me/shurik_freefire" target="_blank">
+        <i class="fab fa-telegram"></i> @shukurjongaybullaev
+    </a>
 </div>
 
 <div class="block title">
-    Купить донат и алмазы Garena Free Fire
+    <i class="fas fa-gem"></i> Купить донат и алмазы Garena Free Fire <i class="fas fa-gem"></i>
 </div>
 
-<button class="btn" onclick="goNext()">Продолжить</button>
+<!-- Instagram блок -->
+<div class="instagram-block">
+    <a href="https://instagram.com/freefire.donatekg" target="_blank" class="instagram-link">
+        <i class="fab fa-instagram instagram-icon"></i>
+        <span class="instagram-text">freefire.donatekg</span>
+    </a>
+</div>
+
+<button class="btn" onclick="goNext()">
+    <i class="fas fa-arrow-right"></i> Продолжить <i class="fas fa-arrow-right"></i>
+</button>
 
 <div class="block rules">
-<h2>📜 Важно перед покупкой</h2>
+<h2><i class="fas fa-exclamation-triangle"></i> Важно перед покупкой</h2>
 <ul>
-<li>⚠ Вводите ID внимательно</li>
-<li>При оплате через M-Bank обязательно напишите свой ID в сообщении, иначе мы не сможем правильно привязать платеж к заказу.</li>
-<li>❌ Мы не несем ответственности за неверный ID</li>
-<li>💰 Возврат возможен только при нашей ошибке</li>
-<li>📦 Проверяйте выбранный товар</li>
-<li>🕒 Обработка может происходить от несколько минут до пару часов </li>
+<li><i class="fas fa-id-card"></i> Вводите ID внимательно</li>
+<li><i class="fas fa-comment-dollar"></i> При оплате через M-Bank обязательно напишите свой ID в сообщении, иначе мы не сможем правильно привязать платеж к заказу.</li>
+<li><i class="fas fa-ban"></i> Мы не несем ответственности за неверный ID</li>
+<li><i class="fas fa-undo"></i> Возврат возможен только при нашей ошибке</li>
+<li><i class="fas fa-box"></i> Проверяйте выбранный товар</li>
+<li><i class="fas fa-clock"></i> Обработка может происходить от нескольких минут до пары часов</li>
+<li><i class="fas fa-headset"></i> По всем вопросам обращайтесь в Telegram или Instagram</li>
 </ul>
 </div>
 
